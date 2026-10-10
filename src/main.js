@@ -1,4 +1,5 @@
 const usernameInput = document.getElementById("username");
+const usernameError = document.getElementById("username-error");
 const MIN_LENGTH = 3;
 const MAX_LENGTH = 15;
 
@@ -19,6 +20,6 @@ function usernameValidate() {
 }
 
 usernameInput.addEventListener("input", () => {
-  console.log(usernameValidate());
-  // usernameValidate();   TODO:está ok, cuando quite console.log(usernameValidate());
+  const isCorrect = usernameValidate();
+  usernameError.hidden = isCorrect;
 });
