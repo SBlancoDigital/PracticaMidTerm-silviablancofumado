@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeMemory by Silvia Blanco</title>
+</head>
+
+<body>
+    <main class="container">
+        <h1 class="text-center">PokeMemory</h1>
+        <h2 class="text-center">Crear tu perfil</h2>
+
+        <form id="profile-form">
+            <div class="form-group">
+                <label for="username">Nombre de usuario:</label>
+                <input type="text" id="username" name="username" required>
+                <p id="username-error" class="error" hidden>El nombre de usuario debe tener entre 3 y 15 caracteres.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="pokemon-search">Busca tu Pokémon favorito:</label>
+                <input type="text" id="pokemon-search" autocomplete="off" required> <!--utilizar placeholder para escribir dentro de la caja de texto. -->
+                <ul id="pokemon-results"></ul>
+            </div>
+
+            <div id="pokemon-selected">   <!-- TODO: lo dejo visible para verlo yo, luego toca ocultarlo y solo será visible cuando se elija un Pokémon-->      
+                <p>Has seleccionado a:</p>
+                <p id="selected-pokemon-name"></p>
+                <img id="selected-pokemon-img" src="" alt="" width="150">  <!-- TODO: src lo dejo vacio y lo rellenaremos con JS-->
+            </div>
+
+            <p id="pokemon-error" class="error"></p>
+
+            <button type="submit">Registrarse</button>
+            <button type="button" id="change-pokemon">Cambiar de Pokémon</button>  <!-- ojo!! No debe enviar el formulario -->        </form>
+    </main>
+
+</body>
+</html>
