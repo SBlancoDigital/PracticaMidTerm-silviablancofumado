@@ -15,6 +15,28 @@ cardCountInput.addEventListener("input", () => {
   cardCountError.hidden = isCorrect;
 });
 
+const gameMessage = document.getElementById("game-message");
+
+function startGame(cardCount) {
+  if (!cardCountValidate(cardCount)) {
+    cardCountError.hidden = false;
+    gameMessage.textContent = "";  // Hace que cuando el usuario introduce un número de cartas incorrecto, el mensaje de "La partida empieza..." desaparezca 
+    return;
+  } 
+  cardCountError.hidden = true;
+
+  gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`;   // `con ${..} me deja mostrar el valor de la variable selectNumberCards en el mensaje
+}
+
+document.querySelectorAll(".number-cards-option").forEach((button) => { 
+  button.addEventListener("click", () => {
+    startGame(button.dataset.cards);
+  });
+});
+
+document.getElementById("start-game").addEventListener("click", () => {
+  startGame(cardCountInput.value);
+});
 
 // Validación del nombre de usuario
 const usernameInput = document.getElementById("username");
