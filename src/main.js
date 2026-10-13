@@ -1,3 +1,7 @@
+// Temporizador
+import { formatTimer } from "./timer.js";
+console.log(formatTimer(125)); // TODO: BORRAR solo sirve para probar la función
+
 // Validación del número de cartas
 import {
   cardCountValidate,
@@ -20,15 +24,15 @@ const gameMessage = document.getElementById("game-message");
 function startGame(cardCount) {
   if (!cardCountValidate(cardCount)) {
     cardCountError.hidden = false;
-    gameMessage.textContent = "";  // Hace que cuando el usuario introduce un número de cartas incorrecto, el mensaje de "La partida empieza..." desaparezca 
+    gameMessage.textContent = ""; // Hace que cuando el usuario introduce un número de cartas incorrecto, el mensaje de "La partida empieza..." desaparezca
     return;
-  } 
+  }
   cardCountError.hidden = true;
 
-  gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`;   // `con ${..} me deja mostrar el valor de la variable selectNumberCards en el mensaje
+  gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`; // `con ${..} me deja mostrar el valor de la variable selectNumberCards en el mensaje
 }
 
-document.querySelectorAll(".number-cards-option").forEach((button) => { 
+document.querySelectorAll(".number-cards-option").forEach((button) => {
   button.addEventListener("click", () => {
     startGame(button.dataset.cards);
   });
@@ -43,7 +47,6 @@ const usernameInput = document.getElementById("username");
 const usernameError = document.getElementById("username-error");
 const MIN_LENGTH = 3;
 const MAX_LENGTH = 15;
-
 
 function usernameValidate() {
   const usernameCleaned = usernameInput.value.trim();
