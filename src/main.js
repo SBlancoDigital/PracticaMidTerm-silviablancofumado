@@ -1,16 +1,21 @@
-// Temporizador
-import { formatTimer } from "./timer.js";
-import { startTimer } from "./timer.js";
-import { resetTimer } from "./timer.js";
-
-const timerElement = document.getElementById("timer");
-
-// Validación del número de cartas
 import {
   cardCountValidate,
   MIN_CARDS,
   MAX_CARDS,
 } from "./cardCountValidation.js";
+
+import { formatTimer } from "./timer.js";
+import { startTimer } from "./timer.js";
+import { resetTimer } from "./timer.js";
+import { renderBoard } from "./board.js";
+import { createDeck } from "./deck.js";
+
+// Temporizador
+const timerElement = document.getElementById("timer");
+
+console.log(createDeck(8)); // Muestra en la consola 4 pares de cartas
+
+// Validación del número de cartas
 
 const cardCountInput = document.getElementById("personalized-numberCards");
 const cardCountError = document.getElementById("card-count-error");
@@ -41,6 +46,10 @@ function startGame(cardCount) {
   startTimer((text) => {
     timerElement.textContent = text;
   });
+
+
+  const boardElement = document.getElementById("board");
+  renderBoard(boardElement, Number(cardCount));
 }
 
 document.querySelectorAll(".number-cards-option").forEach((button) => {
