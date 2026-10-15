@@ -1,6 +1,9 @@
 // Temporizador
 import { formatTimer } from "./timer.js";
-console.log(formatTimer(125)); // TODO: BORRAR solo sirve para probar la función
+import { startTimer } from "./timer.js";
+import { resetTimer } from "./timer.js";
+
+const timerElement = document.getElementById("timer");
 
 // Validación del número de cartas
 import {
@@ -22,6 +25,7 @@ cardCountInput.addEventListener("input", () => {
 const gameMessage = document.getElementById("game-message");
 
 function startGame(cardCount) {
+
   if (!cardCountValidate(cardCount)) {
     cardCountError.hidden = false;
     gameMessage.textContent = ""; // Hace que cuando el usuario introduce un número de cartas incorrecto, el mensaje de "La partida empieza..." desaparezca
@@ -30,6 +34,13 @@ function startGame(cardCount) {
   cardCountError.hidden = true;
 
   gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`; // `con ${..} me deja mostrar el valor de la variable selectNumberCards en el mensaje
+
+  // TODO: el temporizador debe arrancar al girar la primera carta, no aquí
+  resetTimer();
+  timerElement.textContent = formatTimer(0);
+  startTimer((text) => {
+    timerElement.textContent = text;
+  });
 }
 
 document.querySelectorAll(".number-cards-option").forEach((button) => {
