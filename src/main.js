@@ -12,8 +12,7 @@ import { createDeck } from "./deck.js";
 
 // Temporizador
 const timerElement = document.getElementById("timer");
-
-console.log(createDeck(8)); // Muestra en la consola 4 pares de cartas
+const boardElement = document.getElementById("board");
 
 // Validación del número de cartas
 
@@ -30,7 +29,6 @@ cardCountInput.addEventListener("input", () => {
 const gameMessage = document.getElementById("game-message");
 
 function startGame(cardCount) {
-
   if (!cardCountValidate(cardCount)) {
     cardCountError.hidden = false;
     gameMessage.textContent = ""; // Hace que cuando el usuario introduce un número de cartas incorrecto, el mensaje de "La partida empieza..." desaparezca
@@ -47,9 +45,8 @@ function startGame(cardCount) {
     timerElement.textContent = text;
   });
 
-
-  const boardElement = document.getElementById("board");
-  renderBoard(boardElement, Number(cardCount));
+  const deck = createDeck(Number(cardCount));
+  renderBoard(boardElement, deck);
 }
 
 document.querySelectorAll(".number-cards-option").forEach((button) => {
@@ -87,4 +84,16 @@ function usernameValidate() {
 usernameInput.addEventListener("input", () => {
   const isCorrect = usernameValidate();
   usernameError.hidden = isCorrect;
+});
+
+boardElement.addEventListener("click", (event) => {
+  const card = event.target.closest(".card");
+  if (!card) return;
+
+  if (card.classList.contains("flipped")) {
+    return;
+  }
+
+  card.classList.add("flipped");
+  card.textContent = card.dataset.value;
 });
