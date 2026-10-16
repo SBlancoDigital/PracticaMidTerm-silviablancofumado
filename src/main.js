@@ -36,7 +36,7 @@ function startGame(cardCount) {
   }
   cardCountError.hidden = true;
 
-  gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`; // `con ${..} me deja mostrar el valor de la variable selectNumberCards en el mensaje
+  gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`; 
 
   // TODO: el temporizador debe arrancar al girar la primera carta, no aquí
   resetTimer();
@@ -46,6 +46,7 @@ function startGame(cardCount) {
   });
 
   const deck = createDeck(Number(cardCount));
+  resetTurn();
   renderBoard(boardElement, deck);
 }
 
@@ -86,14 +87,52 @@ usernameInput.addEventListener("input", () => {
   usernameError.hidden = isCorrect;
 });
 
+
+const HIDE_DELAY_MS = 1000;
+
+let firstCard = null;
+let isChecking = false;
+let hideTimeoutId = null;
+
+function hideCard(card) {
+  card.classList.remove("flipped");
+  card.textContent = "?";
+}
+
+function resetTurn() {
+  clearTimeout(hideTimeoutId);
+  firstCard = null;
+  isChecking = false;
+  hideTimeoutId = null;
+}
+
 boardElement.addEventListener("click", (event) => {
   const card = event.target.closest(".card");
   if (!card) return;
-
-  if (card.classList.contains("flipped")) {
-    return;
-  }
+  if (isChecking) return;
+  if (card.classList.contains("flipped")) return;
 
   card.classList.add("flipped");
   card.textContent = card.dataset.value;
+
+  if (firstCard === null) {
+    firstCard = card;
+    return;
+  }
+
+  const secondCard = card;
+
+  if (firstCard.dataset.value === secondCard.dataset.value) {
+    firstCard.classList.add("matched");
+    secondCard.classList.add("matched");
+    firstCard = null;
+  } else {
+    isChecking = true;
+    hideTimeoutId = setTimeout(() => {
+      hideCard(firstCard);
+      hideCard(secondCard);
+      firstCard = null;
+      isChecking = false;
+    }, HIDE_DELAY_MS);
+  }
 });
