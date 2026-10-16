@@ -26,3 +26,7 @@ export function resetTimer() {
   stopTimer();
   elapsedSeconds = 0;
 }
+
+export function getElapsedSeconds() {
+  return elapsedSeconds;
+}

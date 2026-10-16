@@ -4,9 +4,13 @@ import {
   MAX_CARDS,
 } from "./cardCountValidation.js";
 
-import { formatTimer } from "./timer.js";
-import { startTimer } from "./timer.js";
-import { resetTimer } from "./timer.js";
+import {
+  formatTimer,
+  startTimer,
+  resetTimer,
+  stopTimer,
+  getElapsedSeconds,
+} from "./timer.js";
 import { renderBoard } from "./board.js";
 import { createDeck } from "./deck.js";
 
@@ -38,14 +42,14 @@ function startGame(cardCount) {
 
   gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`; 
 
-  // TODO: el temporizador debe arrancar al girar la primera carta, no aquí
-  resetTimer();
-  timerElement.textContent = formatTimer(0);
-  startTimer((text) => {
-    timerElement.textContent = text;
-  });
+  // do it: el temporizador arranca al girar la primera carta
+    resetTimer();
+  showTime(formatTimer(0));
 
   const deck = createDeck(Number(cardCount));
+  matchedPairs = 0;
+  totalPairs = deck.length / 2;
+  hasStarted = false;
   resetTurn();
   renderBoard(boardElement, deck);
 }
@@ -93,6 +97,13 @@ const HIDE_DELAY_MS = 1000;
 let firstCard = null;
 let isChecking = false;
 let hideTimeoutId = null;
+let matchedPairs = 0;
+let totalPairs = 0;
+let hasStarted = false;
+
+function showTime(text) {
+  timerElement.textContent = text;
+}
 
 function hideCard(card) {
   card.classList.remove("flipped");
@@ -114,6 +125,10 @@ boardElement.addEventListener("click", (event) => {
 
   card.classList.add("flipped");
   card.textContent = card.dataset.value;
+  if (!hasStarted) {
+    hasStarted = true;
+    startTimer(showTime);
+  } 
 
   if (firstCard === null) {
     firstCard = card;
@@ -126,6 +141,10 @@ boardElement.addEventListener("click", (event) => {
     firstCard.classList.add("matched");
     secondCard.classList.add("matched");
     firstCard = null;
+    matchedPairs++;
+    if (matchedPairs === totalPairs) {
+      endGame();
+    }
   } else {
     isChecking = true;
     hideTimeoutId = setTimeout(() => {
@@ -136,3 +155,8 @@ boardElement.addEventListener("click", (event) => {
     }, HIDE_DELAY_MS);
   }
 });
+
+function endGame() {
+  stopTimer();
+  gameMessage.textContent = `¡Partida terminada! Tu tiempo: ${formatTimer(getElapsedSeconds())}`;
+}
