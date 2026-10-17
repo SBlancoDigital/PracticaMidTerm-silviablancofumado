@@ -40,6 +40,7 @@ let hideTimeoutId = null;
 let matchedPairs = 0;
 let totalPairs = 0;
 let hasStarted = false;
+let lastCardCount = null;
 
 function showTime(text) {
   timerElement.textContent = text;
@@ -64,6 +65,8 @@ function startGame(cardCount) {
     return;
   }
   cardCountError.hidden = true;
+
+  lastCardCount = cardCount;
 
   gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`;
 
@@ -152,6 +155,15 @@ boardElement.addEventListener("click", (event) => {
       firstCard = null;
       isChecking = false;
     }, HIDE_DELAY_MS);
+  }
+});
+
+document.getElementById("reset-game").addEventListener("click", () => {
+  if (lastCardCount !== null) {
+    startGame(lastCardCount);
+  }
+  else {
+    gameMessage.textContent = "¡No hay ninguna partida para reiniciar! Selecciona el número de cartas con las que quieres jugar.";
   }
 });
 
