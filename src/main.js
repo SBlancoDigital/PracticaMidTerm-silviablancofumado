@@ -129,6 +129,20 @@ function resetTurn() {
   hideTimeoutId = null;
 }
 
+function clearGame() {
+  resetTimer();
+  showTime(formatTimer(0));
+  resetTurn();
+  boardElement.replaceChildren();
+  gameMessage.textContent = "";
+  hasStarted = false;
+  matchedPairs = 0;
+  totalPairs = 0;
+  lastCardCount = null;
+  lastResultId = null;
+  refreshRanking();
+}
+
 function startGame(cardCount) {
   if (!cardCountValidate(cardCount)) {
     cardCountError.hidden = false;
@@ -175,6 +189,7 @@ document.getElementById("change-pokemon").addEventListener("click", () => {
 
 document.getElementById("logout").addEventListener("click", () => {
   clearProfile();
+  clearGame();
   showScreen();
 });
 
