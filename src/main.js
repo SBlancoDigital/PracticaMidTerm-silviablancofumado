@@ -1,4 +1,8 @@
-import { addResult } from "./historyStore.js";
+import { renderRanking } from "./rankingView.js";
+
+import { sortResults } from "./ranking.js";
+
+import { addResult, loadHistory } from "./historyStore.js";
 
 import {
   cardCountValidate,
@@ -15,6 +19,11 @@ import {
 } from "./timer.js";
 import { renderBoard } from "./board.js";
 import { createDeck } from "./deck.js";
+
+// Rankings
+function refreshRanking() {
+  renderRanking(sortResults(loadHistory()));
+}
 
 // Temporizador
 const timerElement = document.getElementById("timer");
@@ -184,6 +193,8 @@ function endGame() {
   };
   stopTimer();
   addResult(result);
+  refreshRanking();
 
   gameMessage.textContent = `¡Partida terminada! Tu tiempo: ${formatTimer(getElapsedSeconds())}`;
 }
+refreshRanking();
