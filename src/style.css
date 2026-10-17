@@ -10,3 +10,9 @@
 #ranking-body td:nth-child(3) {
   text-transform: capitalize;
 }
+
+.card img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
