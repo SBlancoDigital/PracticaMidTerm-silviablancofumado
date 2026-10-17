@@ -76,6 +76,10 @@ const selectedPokemonBlock = document.getElementById("pokemon-selected");
 const loginSection = document.getElementById("login-section");
 const gameSection = document.getElementById("game-section");
 
+const userNameElement = document.getElementById("user-name");
+const userPokemonImg = document.getElementById("user-pokemon-img");
+const userPokemonName = document.getElementById("user-pokemon-name");
+
 
 
 async function loadPokemonList() {
@@ -93,6 +97,14 @@ function showScreen() {
   const profile = loadProfile();
   loginSection.hidden = profile !== null;
   gameSection.hidden = profile === null;
+  
+  if (profile === null) return;
+
+  userNameElement.textContent = profile.username;
+  userPokemonImg.src = profile.pokemon.img;
+  userPokemonImg.alt = profile.pokemon.name;
+  userPokemonName.textContent = profile.pokemon.name;
+  
 }
 
 showScreen();
@@ -269,6 +281,7 @@ document.getElementById("profile-form").addEventListener("submit", (event) => {
     pokemon: selectedPokemon,
   };
   saveProfile(profile);
+  showScreen();
 });
 
 function endGame() {
