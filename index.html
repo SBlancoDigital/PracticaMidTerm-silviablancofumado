@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PokeMemory by Silvia Blanco</title>
+    <script type="module" src="./src/main.js"></script>
+  </head>
+
+  <body>
+    <main class="container">
+      <h1 class="text-center">PokeMemory</h1>
+
+      <!-- Bloque sin sesión-->
+      <section id="login-section">
+        <h2 class="text-center">Crear tu perfil</h2>
+
+        <form id="profile-form">
+          <div class="form-group">
+            <label for="username">Nombre de usuario:</label>
+            <input type="text" id="username" name="username" required />
+            <p id="username-error" class="error" hidden>
+              El nombre de usuario debe tener entre 3 y 15 caracteres.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="pokemon-search">Busca tu Pokémon favorito:</label>
+            <input
+              type="text"
+              id="pokemon-search"
+              autocomplete="off"
+              required
+            />
+            <!--utilizar placeholder para escribir dentro de la caja de texto. -->
+            <ul id="pokemon-results"></ul>
+          </div>
+
+          <div id="pokemon-selected">
+            <!-- TODO: lo dejo visible para verlo yo, luego toca ocultarlo y solo será visible cuando se elija un Pokémon-->
+            <p>Has seleccionado a:</p>
+            <p id="selected-pokemon-name"></p>
+            <img id="selected-pokemon-img" src="" alt="" width="150" />
+            <!-- TODO: src lo dejo vacio y lo rellenaremos con JS-->
+          </div>
+
+          <p id="pokemon-error" class="error"></p>
+
+          <button type="submit">Registrarse</button>
+          <button type="button" id="change-pokemon">Cambiar de Pokémon</button>
+          <!-- ojo!! No debe enviar el formulario -->
+        </form>
+      </section>
+
+      <!-- Bloque de juego con sesión-->
+      <section id="game-section">
+        <!-- TODO he de añadir hidden cuando tenga la parte de la sessión creada-->
+        <h2>¿Con cuantas cartas quieres jugar?</h2>
+
+        <!--Cabecera: username + Pokémon favorito + Cerrar sesión-->
+        <div id="user-info">
+          <span id="user-name">Usuario:</span>
+          <!-- TODO: Pendiente JS - rellenar con el nombre de usuario -->
+          <img id="user-pokemon-img" src="" alt="" width="50" />
+          <!-- TODO: Pendiente JS - rellenar con la imagen del Pokémon favorito -->
+          <span id="user-pokemon-name">Pokémon:</span>
+          <!-- TODO: Pendiente JS - rellenar con el nombre del Pokémon favorito -->
+          <button type="button" id="logout">Cerrar sesión</button>
+        </div>
+
+        <!-- Elección de número de cartas -->
+
+        <div class="form-group">
+          <button type="button" class="number-cards-option" data-cards="8">
+            8 cartas
+          </button>
+          <button type="button" class="number-cards-option" data-cards="16">
+            16 cartas
+          </button>
+          <button type="button" class="number-cards-option" data-cards="32">
+            32 cartas
+          </button>
+          <button type="button" class="number-cards-option" data-cards="48">
+            48 cartas
+          </button>
+
+          <label for="personalized-numberCards"
+            >Crea tu tablero personalizado: Elige con cuantas cartas quieres
+            jugar:
+          </label>
+          <input
+            type="number"
+            id="personalized-numberCards"
+            name="personalized-numberCards"
+            min="4"
+            max="48"
+            step="2"
+            value="4"
+          />
+
+          <p id="card-count-error" class="error" hidden>
+            El número de cartas debe ser un número par entre 4 y 48.
+          </p>
+
+          <p id="game-message"></p>
+          <!--TODO: Mensaje que me ha de decir con cuantas cartas he decidido jugar-->
+
+          <button id="start-game">Iniciar Juego</button>
+        </div>
+
+        <div id="game-controls">
+          <p id="timer">0m 0s</p>
+          <button type="button" id="reset-game">Reiniciar</button>
+        </div>
+
+        <div id="board"></div>
+      </section>
+    </main>
+  </body>
+</html>
