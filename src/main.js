@@ -1,4 +1,4 @@
-import { saveProfile, loadProfile } from "./sessionStore.js";
+import { saveProfile, loadProfile, clearProfile } from "./sessionStore.js";
 
 import { fetchAllPokemon } from "./pokemonService.js";
 
@@ -104,7 +104,7 @@ function showScreen() {
   userPokemonImg.src = profile.pokemon.img;
   userPokemonImg.alt = profile.pokemon.name;
   userPokemonName.textContent = profile.pokemon.name;
-  
+
 }
 
 showScreen();
@@ -171,6 +171,11 @@ document.getElementById("change-pokemon").addEventListener("click", () => {
   selectedPokemonBlock.hidden = true;
   pokemonSearchInput.value = "";
   pokemonSearchInput.focus();
+});
+
+document.getElementById("logout").addEventListener("click", () => {
+  clearProfile();
+  showScreen();
 });
 
 // Validación del nombre de usuario
