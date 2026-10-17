@@ -69,6 +69,7 @@ const pokemonError = document.getElementById("pokemon-error");
 let allPokemon = [];
 const selectedPokemonName = document.getElementById("selected-pokemon-name");
 const selectedPokemonImg = document.getElementById("selected-pokemon-img");
+const selectedPokemonBlock = document.getElementById("pokemon-selected");
 
 let selectedPokemon = null;
 
@@ -218,6 +219,8 @@ pokemonResults.addEventListener("click", (event) => {
   selectedPokemonName.textContent = selectedPokemon.name;
   selectedPokemonImg.src = selectedPokemon.img;
   selectedPokemonImg.alt = selectedPokemon.name;
+  selectedPokemonBlock.hidden = false;
+renderPokemonResults(pokemonResults, []);
 });
 
 document.getElementById("reset-game").addEventListener("click", () => {
