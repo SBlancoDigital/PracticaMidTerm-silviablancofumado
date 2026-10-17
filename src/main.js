@@ -82,7 +82,7 @@ const userPokemonName = document.getElementById("user-pokemon-name");
 async function loadPokemonList() {
   try {
     allPokemon = await fetchAllPokemon();
-  } catch {
+    } catch {
     pokemonError.textContent =
       "No se han podido cargar los Pokémons. Recarga la página.";
   }
@@ -141,6 +141,12 @@ function startGame(cardCount) {
     return;
   }
   cardCountError.hidden = true;
+
+    if (allPokemon.length === 0) {
+    gameMessage.textContent =
+      "Los Pokémons aún no se han cargado. Espera un momento y vuelvelo a intentar.";
+    return;
+  }
 
   lastCardCount = cardCount;
 
