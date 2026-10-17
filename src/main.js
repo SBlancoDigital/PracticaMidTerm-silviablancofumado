@@ -141,6 +141,13 @@ document.getElementById("start-game").addEventListener("click", () => {
   startGame(cardCountInput.value);
 });
 
+document.getElementById("change-pokemon").addEventListener("click", () => {
+  selectedPokemon = null;
+  selectedPokemonBlock.hidden = true;
+  pokemonSearchInput.value = "";
+  pokemonSearchInput.focus();
+});
+
 // Validación del nombre de usuario
 const usernameInput = document.getElementById("username");
 const usernameError = document.getElementById("username-error");
