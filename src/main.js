@@ -67,20 +67,21 @@ const pokemonResults = document.getElementById("pokemon-results");
 const pokemonError = document.getElementById("pokemon-error");
 
 let allPokemon = [];
+const selectedPokemonName = document.getElementById("selected-pokemon-name");
+const selectedPokemonImg = document.getElementById("selected-pokemon-img");
+
+let selectedPokemon = null;
 
 async function loadPokemonList() {
   try {
     allPokemon = await fetchAllPokemon();
+  
   } catch {
     pokemonError.textContent =
       "No se han podido cargar los Pokémons. Recarga la página.";
   }
 }
 loadPokemonList();
-pokemonSearchInput.addEventListener("input", () => {
-  const matches = searchPokemon(allPokemon, pokemonSearchInput.value);
-  renderPokemonResults(pokemonResults, matches);
-});
 
 function showTime(text) {
   timerElement.textContent = text;
@@ -203,6 +204,20 @@ boardElement.addEventListener("click", (event) => {
       isChecking = false;
     }, HIDE_DELAY_MS);
   }
+});
+
+pokemonSearchInput.addEventListener("input", () => {
+  const matches = searchPokemon(allPokemon, pokemonSearchInput.value);
+  renderPokemonResults(pokemonResults, matches);
+});
+
+pokemonResults.addEventListener("click", (event) => {
+  const button = event.target.closest("button");
+  if (!button) return;
+  selectedPokemon = allPokemon.find((pokemon) => pokemon.id === button.dataset.id);
+  selectedPokemonName.textContent = selectedPokemon.name;
+  selectedPokemonImg.src = selectedPokemon.img;
+  selectedPokemonImg.alt = selectedPokemon.name;
 });
 
 document.getElementById("reset-game").addEventListener("click", () => {
