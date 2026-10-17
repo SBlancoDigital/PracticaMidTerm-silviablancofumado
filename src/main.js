@@ -1,3 +1,5 @@
+import { saveProfile } from "./sessionStore.js";
+
 import { fetchAllPokemon } from "./pokemonService.js";
 
 import { searchPokemon } from "./pokemonSearch.js";
@@ -251,6 +253,11 @@ document.getElementById("profile-form").addEventListener("submit", (event) => {
   }
 
   pokemonError.textContent = "";
+  const profile = {
+    username: usernameInput.value.trim(),
+    pokemon: selectedPokemon,
+  };
+  saveProfile(profile);
 });
 
 function endGame() {
