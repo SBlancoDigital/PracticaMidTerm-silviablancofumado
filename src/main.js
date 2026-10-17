@@ -1,3 +1,5 @@
+import { addResult } from "./historyStore.js";
+
 import {
   cardCountValidate,
   MIN_CARDS,
@@ -44,6 +46,10 @@ let lastCardCount = null;
 
 function showTime(text) {
   timerElement.textContent = text;
+}
+
+function getCurrentProfile() {
+  return { username: "Jugador", pokemon: { id: 25, name: "pikachu", img: "" } }; // TODO: sustituir por el perfil de sessionStorage cuando exista
 }
 
 function hideCard(card) {
@@ -161,13 +167,23 @@ boardElement.addEventListener("click", (event) => {
 document.getElementById("reset-game").addEventListener("click", () => {
   if (lastCardCount !== null) {
     startGame(lastCardCount);
-  }
-  else {
-    gameMessage.textContent = "¡No hay ninguna partida para reiniciar! Selecciona el número de cartas con las que quieres jugar.";
+  } else {
+    gameMessage.textContent =
+      "¡No hay ninguna partida para reiniciar! Selecciona el número de cartas con las que quieres jugar.";
   }
 });
 
 function endGame() {
+  const profile = getCurrentProfile();
+  const result = {
+    id: Date.now().toString(36),
+    username: profile.username,
+    pokemon: profile.pokemon.name,
+    time: getElapsedSeconds(),
+    numberOfCards: Number(lastCardCount),
+  };
   stopTimer();
+  addResult(result);
+
   gameMessage.textContent = `¡Partida terminada! Tu tiempo: ${formatTimer(getElapsedSeconds())}`;
 }
