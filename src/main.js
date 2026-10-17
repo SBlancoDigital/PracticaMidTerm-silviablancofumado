@@ -217,6 +217,7 @@ boardElement.addEventListener("click", (event) => {
 pokemonSearchInput.addEventListener("input", () => {
   const matches = searchPokemon(allPokemon, pokemonSearchInput.value);
   renderPokemonResults(pokemonResults, matches);
+  pokemonError.textContent = "";
 });
 
 pokemonResults.addEventListener("click", (event) => {
@@ -237,6 +238,19 @@ document.getElementById("reset-game").addEventListener("click", () => {
     gameMessage.textContent =
       "¡No hay ninguna partida para reiniciar! Selecciona el número de cartas con las que quieres jugar.";
   }
+});
+
+document.getElementById("profile-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const isUsernameCorrect = usernameValidate();
+  usernameError.hidden = isUsernameCorrect;
+    if (selectedPokemon === null) {
+    pokemonError.textContent = "Elige un Pokémon para crear tu perfil.";
+    return;
+  }
+
+  pokemonError.textContent = "";
 });
 
 function endGame() {
