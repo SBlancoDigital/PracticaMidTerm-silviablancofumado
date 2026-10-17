@@ -32,6 +32,31 @@ cardCountInput.addEventListener("input", () => {
 
 const gameMessage = document.getElementById("game-message");
 
+const HIDE_DELAY_MS = 1000;
+
+let firstCard = null;
+let isChecking = false;
+let hideTimeoutId = null;
+let matchedPairs = 0;
+let totalPairs = 0;
+let hasStarted = false;
+
+function showTime(text) {
+  timerElement.textContent = text;
+}
+
+function hideCard(card) {
+  card.classList.remove("flipped");
+  card.textContent = "?";
+}
+
+function resetTurn() {
+  clearTimeout(hideTimeoutId);
+  firstCard = null;
+  isChecking = false;
+  hideTimeoutId = null;
+}
+
 function startGame(cardCount) {
   if (!cardCountValidate(cardCount)) {
     cardCountError.hidden = false;
@@ -40,10 +65,10 @@ function startGame(cardCount) {
   }
   cardCountError.hidden = true;
 
-  gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`; 
+  gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`;
 
-  // do it: el temporizador arranca al girar la primera carta
-    resetTimer();
+  // El temporizador arranca al girar la primera carta
+  resetTimer();
   showTime(formatTimer(0));
 
   const deck = createDeck(Number(cardCount));
@@ -91,32 +116,6 @@ usernameInput.addEventListener("input", () => {
   usernameError.hidden = isCorrect;
 });
 
-
-const HIDE_DELAY_MS = 1000;
-
-let firstCard = null;
-let isChecking = false;
-let hideTimeoutId = null;
-let matchedPairs = 0;
-let totalPairs = 0;
-let hasStarted = false;
-
-function showTime(text) {
-  timerElement.textContent = text;
-}
-
-function hideCard(card) {
-  card.classList.remove("flipped");
-  card.textContent = "?";
-}
-
-function resetTurn() {
-  clearTimeout(hideTimeoutId);
-  firstCard = null;
-  isChecking = false;
-  hideTimeoutId = null;
-}
-
 boardElement.addEventListener("click", (event) => {
   const card = event.target.closest(".card");
   if (!card) return;
@@ -128,7 +127,7 @@ boardElement.addEventListener("click", (event) => {
   if (!hasStarted) {
     hasStarted = true;
     startTimer(showTime);
-  } 
+  }
 
   if (firstCard === null) {
     firstCard = card;
