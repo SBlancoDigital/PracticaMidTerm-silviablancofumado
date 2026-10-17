@@ -1,3 +1,12 @@
 .highlight {
   background-color: gold;
 }
+
+#user-name,
+#user-pokemon-name,
+#selected-pokemon-name,
+#pokemon-results button,
+#ranking-body td:nth-child(2),
+#ranking-body td:nth-child(3) {
+  text-transform: capitalize;
+}

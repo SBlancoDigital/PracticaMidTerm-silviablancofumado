@@ -31,14 +31,12 @@
               type="text"
               id="pokemon-search"
               autocomplete="off"
-              required
             />
             <!--utilizar placeholder para escribir dentro de la caja de texto. -->
             <ul id="pokemon-results"></ul>
           </div>
 
-          <div id="pokemon-selected">
-            <!-- TODO: lo dejo visible para verlo yo, luego toca ocultarlo y solo será visible cuando se elija un Pokémon-->
+          <div id="pokemon-selected" hidden>
             <p>Has seleccionado a:</p>
             <p id="selected-pokemon-name"></p>
             <img id="selected-pokemon-img" src="" alt="" width="150" />
@@ -54,8 +52,8 @@
       </section>
 
       <!-- Bloque de juego con sesión-->
-      <section id="game-section">
-        <!-- TODO he de añadir hidden cuando tenga la parte de la sessión creada-->
+      <section id="game-section" hidden>
+       
         <h2>¿Con cuantas cartas quieres jugar?</h2>
 
         <!--Cabecera: username + Pokémon favorito + Cerrar sesión-->

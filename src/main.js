@@ -1,3 +1,11 @@
+import { saveProfile, loadProfile, clearProfile } from "./sessionStore.js";
+
+import { fetchAllPokemon } from "./pokemonService.js";
+
+import { searchPokemon } from "./pokemonSearch.js";
+
+import { renderPokemonResults } from "./profileView.js";
+
 import { renderRanking } from "./rankingView.js";
 
 import { sortResults, getVisibleRows } from "./ranking.js";
@@ -19,6 +27,7 @@ import {
 } from "./timer.js";
 import { renderBoard } from "./board.js";
 import { createDeck } from "./deck.js";
+
 
 // Rankings
 function refreshRanking() {
@@ -53,13 +62,55 @@ let totalPairs = 0;
 let hasStarted = false;
 let lastCardCount = null;
 let lastResultId = null;
+let allPokemon = [];
+let selectedPokemon = null;
+
+const pokemonSearchInput = document.getElementById("pokemon-search");
+const pokemonResults = document.getElementById("pokemon-results");
+const pokemonError = document.getElementById("pokemon-error");
+
+const selectedPokemonName = document.getElementById("selected-pokemon-name");
+const selectedPokemonImg = document.getElementById("selected-pokemon-img");
+const selectedPokemonBlock = document.getElementById("pokemon-selected");
+
+const loginSection = document.getElementById("login-section");
+const gameSection = document.getElementById("game-section");
+
+const userNameElement = document.getElementById("user-name");
+const userPokemonImg = document.getElementById("user-pokemon-img");
+const userPokemonName = document.getElementById("user-pokemon-name");
+
+
+
+async function loadPokemonList() {
+  try {
+    allPokemon = await fetchAllPokemon();
+  
+  } catch {
+    pokemonError.textContent =
+      "No se han podido cargar los Pokémons. Recarga la página.";
+  }
+}
+loadPokemonList();
+
+function showScreen() {
+  const profile = loadProfile();
+  loginSection.hidden = profile !== null;
+  gameSection.hidden = profile === null;
+  
+  if (profile === null) return;
+
+  userNameElement.textContent = profile.username;
+  userPokemonImg.src = profile.pokemon.img;
+  userPokemonImg.alt = profile.pokemon.name;
+  userPokemonName.textContent = profile.pokemon.name;
+
+}
+
+showScreen();
 
 function showTime(text) {
   timerElement.textContent = text;
-}
-
-function getCurrentProfile() {
-  return { username: "Jugador", pokemon: { id: 25, name: "pikachu", img: "" } }; // TODO: sustituir por el perfil de sessionStorage cuando exista
 }
 
 function hideCard(card) {
@@ -72,6 +123,20 @@ function resetTurn() {
   firstCard = null;
   isChecking = false;
   hideTimeoutId = null;
+}
+
+function clearGame() {
+  resetTimer();
+  showTime(formatTimer(0));
+  resetTurn();
+  boardElement.replaceChildren();
+  gameMessage.textContent = "";
+  hasStarted = false;
+  matchedPairs = 0;
+  totalPairs = 0;
+  lastCardCount = null;
+  lastResultId = null;
+  refreshRanking();
 }
 
 function startGame(cardCount) {
@@ -109,6 +174,19 @@ document.querySelectorAll(".number-cards-option").forEach((button) => {
 
 document.getElementById("start-game").addEventListener("click", () => {
   startGame(cardCountInput.value);
+});
+
+document.getElementById("change-pokemon").addEventListener("click", () => {
+  selectedPokemon = null;
+  selectedPokemonBlock.hidden = true;
+  pokemonSearchInput.value = "";
+  pokemonSearchInput.focus();
+});
+
+document.getElementById("logout").addEventListener("click", () => {
+  clearProfile();
+  clearGame();
+  showScreen();
 });
 
 // Validación del nombre de usuario
@@ -177,6 +255,23 @@ boardElement.addEventListener("click", (event) => {
   }
 });
 
+pokemonSearchInput.addEventListener("input", () => {
+  const matches = searchPokemon(allPokemon, pokemonSearchInput.value);
+  renderPokemonResults(pokemonResults, matches);
+  pokemonError.textContent = "";
+});
+
+pokemonResults.addEventListener("click", (event) => {
+  const button = event.target.closest("button");
+  if (!button) return;
+  selectedPokemon = allPokemon.find((pokemon) => pokemon.id === button.dataset.id);
+  selectedPokemonName.textContent = selectedPokemon.name;
+  selectedPokemonImg.src = selectedPokemon.img;
+  selectedPokemonImg.alt = selectedPokemon.name;
+  selectedPokemonBlock.hidden = false;
+renderPokemonResults(pokemonResults, []);
+});
+
 document.getElementById("reset-game").addEventListener("click", () => {
   if (lastCardCount !== null) {
     startGame(lastCardCount);
@@ -186,8 +281,27 @@ document.getElementById("reset-game").addEventListener("click", () => {
   }
 });
 
+document.getElementById("profile-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const isUsernameCorrect = usernameValidate();
+  usernameError.hidden = isUsernameCorrect;
+    if (selectedPokemon === null) {
+    pokemonError.textContent = "Elige un Pokémon para crear tu perfil.";
+    return;
+  }
+
+  pokemonError.textContent = "";
+  const profile = {
+    username: usernameInput.value.trim(),
+    pokemon: selectedPokemon,
+  };
+  saveProfile(profile);
+  showScreen();
+});
+
 function endGame() {
-  const profile = getCurrentProfile();
+  const profile = loadProfile();
   const result = {
     id: Date.now().toString(36),
     username: profile.username,
