@@ -1,3 +1,9 @@
+import { fetchAllPokemon } from "./pokemonService.js";
+
+import { searchPokemon } from "./pokemonSearch.js";
+
+import { renderPokemonResults } from "./profileView.js";
+
 import { renderRanking } from "./rankingView.js";
 
 import { sortResults, getVisibleRows } from "./ranking.js";
@@ -19,6 +25,7 @@ import {
 } from "./timer.js";
 import { renderBoard } from "./board.js";
 import { createDeck } from "./deck.js";
+
 
 // Rankings
 function refreshRanking() {
@@ -53,6 +60,27 @@ let totalPairs = 0;
 let hasStarted = false;
 let lastCardCount = null;
 let lastResultId = null;
+
+
+const pokemonSearchInput = document.getElementById("pokemon-search");
+const pokemonResults = document.getElementById("pokemon-results");
+const pokemonError = document.getElementById("pokemon-error");
+
+let allPokemon = [];
+
+async function loadPokemonList() {
+  try {
+    allPokemon = await fetchAllPokemon();
+  } catch {
+    pokemonError.textContent =
+      "No se han podido cargar los Pokémons. Recarga la página.";
+  }
+}
+loadPokemonList();
+pokemonSearchInput.addEventListener("input", () => {
+  const matches = searchPokemon(allPokemon, pokemonSearchInput.value);
+  renderPokemonResults(pokemonResults, matches);
+});
 
 function showTime(text) {
   timerElement.textContent = text;
