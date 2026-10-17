@@ -1,4 +1,4 @@
-import { saveProfile } from "./sessionStore.js";
+import { saveProfile, loadProfile } from "./sessionStore.js";
 
 import { fetchAllPokemon } from "./pokemonService.js";
 
@@ -62,18 +62,21 @@ let totalPairs = 0;
 let hasStarted = false;
 let lastCardCount = null;
 let lastResultId = null;
-
+let allPokemon = [];
+let selectedPokemon = null;
 
 const pokemonSearchInput = document.getElementById("pokemon-search");
 const pokemonResults = document.getElementById("pokemon-results");
 const pokemonError = document.getElementById("pokemon-error");
 
-let allPokemon = [];
 const selectedPokemonName = document.getElementById("selected-pokemon-name");
 const selectedPokemonImg = document.getElementById("selected-pokemon-img");
 const selectedPokemonBlock = document.getElementById("pokemon-selected");
 
-let selectedPokemon = null;
+const loginSection = document.getElementById("login-section");
+const gameSection = document.getElementById("game-section");
+
+
 
 async function loadPokemonList() {
   try {
@@ -85,6 +88,14 @@ async function loadPokemonList() {
   }
 }
 loadPokemonList();
+
+function showScreen() {
+  const profile = loadProfile();
+  loginSection.hidden = profile !== null;
+  gameSection.hidden = profile === null;
+}
+
+showScreen();
 
 function showTime(text) {
   timerElement.textContent = text;
