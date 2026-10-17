@@ -28,7 +28,6 @@ import {
 import { renderBoard } from "./board.js";
 import { createDeck } from "./deck.js";
 
-
 // Rankings
 function refreshRanking() {
   renderRanking(getVisibleRows(sortResults(loadHistory()), lastResultId));
@@ -80,12 +79,9 @@ const userNameElement = document.getElementById("user-name");
 const userPokemonImg = document.getElementById("user-pokemon-img");
 const userPokemonName = document.getElementById("user-pokemon-name");
 
-
-
 async function loadPokemonList() {
   try {
     allPokemon = await fetchAllPokemon();
-  
   } catch {
     pokemonError.textContent =
       "No se han podido cargar los Pokémons. Recarga la página.";
@@ -97,14 +93,13 @@ function showScreen() {
   const profile = loadProfile();
   loginSection.hidden = profile !== null;
   gameSection.hidden = profile === null;
-  
+
   if (profile === null) return;
 
   userNameElement.textContent = profile.username;
   userPokemonImg.src = profile.pokemon.img;
   userPokemonImg.alt = profile.pokemon.name;
   userPokemonName.textContent = profile.pokemon.name;
-
 }
 
 showScreen();
@@ -148,7 +143,7 @@ function startGame(cardCount) {
   cardCountError.hidden = true;
 
   lastCardCount = cardCount;
-  
+
   lastResultId = null; // para reiniciar el ID del último resultado al iniciar un nuevo juego
   refreshRanking(); // volvemos a actualiza el ranking al iniciar un nuevo juego
 
@@ -158,7 +153,7 @@ function startGame(cardCount) {
   resetTimer();
   showTime(formatTimer(0));
 
-  const deck = createDeck(Number(cardCount));
+  const deck = createDeck(allPokemon, Number(cardCount));
   matchedPairs = 0;
   totalPairs = deck.length / 2;
   hasStarted = false;
@@ -223,7 +218,10 @@ boardElement.addEventListener("click", (event) => {
   if (card.classList.contains("flipped")) return;
 
   card.classList.add("flipped");
-  card.textContent = card.dataset.value;
+  const image = document.createElement("img");
+  image.src = card.dataset.img;
+  image.alt = card.dataset.name;
+  card.replaceChildren(image);
   if (!hasStarted) {
     hasStarted = true;
     startTimer(showTime);
@@ -236,7 +234,7 @@ boardElement.addEventListener("click", (event) => {
 
   const secondCard = card;
 
-  if (firstCard.dataset.value === secondCard.dataset.value) {
+  if (firstCard.dataset.id === secondCard.dataset.id) {
     firstCard.classList.add("matched");
     secondCard.classList.add("matched");
     firstCard = null;
@@ -264,12 +262,14 @@ pokemonSearchInput.addEventListener("input", () => {
 pokemonResults.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button) return;
-  selectedPokemon = allPokemon.find((pokemon) => pokemon.id === button.dataset.id);
+  selectedPokemon = allPokemon.find(
+    (pokemon) => pokemon.id === button.dataset.id,
+  );
   selectedPokemonName.textContent = selectedPokemon.name;
   selectedPokemonImg.src = selectedPokemon.img;
   selectedPokemonImg.alt = selectedPokemon.name;
   selectedPokemonBlock.hidden = false;
-renderPokemonResults(pokemonResults, []);
+  renderPokemonResults(pokemonResults, []);
 });
 
 document.getElementById("reset-game").addEventListener("click", () => {
@@ -286,7 +286,7 @@ document.getElementById("profile-form").addEventListener("submit", (event) => {
 
   const isUsernameCorrect = usernameValidate();
   usernameError.hidden = isUsernameCorrect;
-    if (selectedPokemon === null) {
+  if (selectedPokemon === null) {
     pokemonError.textContent = "Elige un Pokémon para crear tu perfil.";
     return;
   }
