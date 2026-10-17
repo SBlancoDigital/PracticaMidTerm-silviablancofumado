@@ -1,6 +1,6 @@
 import { renderRanking } from "./rankingView.js";
 
-import { sortResults } from "./ranking.js";
+import { sortResults, getVisibleRows } from "./ranking.js";
 
 import { addResult, loadHistory } from "./historyStore.js";
 
@@ -22,7 +22,7 @@ import { createDeck } from "./deck.js";
 
 // Rankings
 function refreshRanking() {
-  renderRanking(sortResults(loadHistory()));
+  renderRanking(getVisibleRows(sortResults(loadHistory()), lastResultId));
 }
 
 // Temporizador
@@ -52,6 +52,7 @@ let matchedPairs = 0;
 let totalPairs = 0;
 let hasStarted = false;
 let lastCardCount = null;
+let lastResultId = null;
 
 function showTime(text) {
   timerElement.textContent = text;
@@ -82,6 +83,9 @@ function startGame(cardCount) {
   cardCountError.hidden = true;
 
   lastCardCount = cardCount;
+  
+  lastResultId = null; // para reiniciar el ID del último resultado al iniciar un nuevo juego
+  refreshRanking(); // volvemos a actualiza el ranking al iniciar un nuevo juego
 
   gameMessage.textContent = `La partida empieza! Has elegido: ${cardCount} cartas`;
 
@@ -193,6 +197,7 @@ function endGame() {
   };
   stopTimer();
   addResult(result);
+  lastResultId = result.id;
   refreshRanking();
 
   gameMessage.textContent = `¡Partida terminada! Tu tiempo: ${formatTimer(getElapsedSeconds())}`;

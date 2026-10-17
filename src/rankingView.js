@@ -1,30 +1,41 @@
 import { formatTimer } from "./timer.js";
 
-export function renderRanking(results) {
+export function renderRanking(rows) {
   const emptyMessage = document.getElementById("ranking-empty");
   const table = document.getElementById("ranking-table");
   const body = document.getElementById("ranking-body");
 
   body.replaceChildren();
-  emptyMessage.hidden = results.length > 0;
-  table.hidden = results.length === 0;
+  emptyMessage.hidden = rows.length > 0;
+  table.hidden = rows.length === 0;
 
-  results.forEach((result, index) => {
-    const row = document.createElement("tr");
-    const values = [
-      index + 1,
-      result.username,
-      result.pokemon,
-      formatTimer(result.time),
-      result.numberOfCards,
-    ];
+  rows.forEach((row) => {
+    const tr = document.createElement("tr");
 
-    values.forEach((value) => {
+    if (row.type === "gap") {
       const cell = document.createElement("td");
-      cell.textContent = value;   // Siempre se trata como texto, si pusieramos innerHTML podrían poner código HTML en su nombre y se ejecutaría
-      row.appendChild(cell);
-    });
+      cell.colSpan = 5;
+      const word = row.hidden === 1 ? "posición oculta" : "posiciones ocultas";
+      cell.textContent = `… ${row.hidden} ${word} …`;
+      tr.appendChild(cell);
+    } else {
+      if (row.isHighlighted) {
+        tr.classList.add("highlight");
+      }
+      const { position, result } = row;
+      [
+        position,
+        result.username,
+        result.pokemon,
+        formatTimer(result.time),
+        result.numberOfCards,
+      ].forEach((value) => {
+        const cell = document.createElement("td");
+        cell.textContent = value;
+        tr.appendChild(cell);
+      });
+    }
 
-    body.appendChild(row);
+    body.appendChild(tr);
   });
 }
