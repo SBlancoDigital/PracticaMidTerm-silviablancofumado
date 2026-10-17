@@ -113,10 +113,6 @@ function showTime(text) {
   timerElement.textContent = text;
 }
 
-function getCurrentProfile() {
-  return { username: "Jugador", pokemon: { id: 25, name: "pikachu", img: "" } }; // TODO: sustituir por el perfil de sessionStorage cuando exista
-}
-
 function hideCard(card) {
   card.classList.remove("flipped");
   card.textContent = "?";
@@ -305,7 +301,7 @@ document.getElementById("profile-form").addEventListener("submit", (event) => {
 });
 
 function endGame() {
-  const profile = getCurrentProfile();
+  const profile = loadProfile();
   const result = {
     id: Date.now().toString(36),
     username: profile.username,
