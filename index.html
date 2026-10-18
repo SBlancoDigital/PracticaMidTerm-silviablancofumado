@@ -27,11 +27,7 @@
 
           <div class="form-group">
             <label for="pokemon-search">Busca tu Pokémon favorito:</label>
-            <input
-              type="text"
-              id="pokemon-search"
-              autocomplete="off"
-            />
+            <input type="text" id="pokemon-search" autocomplete="off" />
             <!--utilizar placeholder para escribir dentro de la caja de texto. -->
             <ul id="pokemon-results"></ul>
           </div>
@@ -39,8 +35,13 @@
           <div id="pokemon-selected" hidden>
             <p>Has seleccionado a:</p>
             <p id="selected-pokemon-name"></p>
-            <img id="selected-pokemon-img" src="" alt="" width="150" />
-            <!-- TODO: src lo dejo vacio y lo rellenaremos con JS-->
+            <!-- Es una imagen transparente de 1 píxel, escrita directamente en el HTML. Así no hace falta ningún archivo ni ninguna petición-->
+            <img
+              id="selected-pokemon-img"
+              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+              alt=""
+              width="150"
+            />
           </div>
 
           <p id="pokemon-error" class="error"></p>
@@ -53,17 +54,21 @@
 
       <!-- Bloque de juego con sesión-->
       <section id="game-section" hidden>
-       
         <h2>¿Con cuantas cartas quieres jugar?</h2>
 
         <!--Cabecera: username + Pokémon favorito + Cerrar sesión-->
         <div id="user-info">
           <span id="user-name">Usuario:</span>
-          <!-- TODO: Pendiente JS - rellenar con el nombre de usuario -->
-          <img id="user-pokemon-img" src="" alt="" width="50" />
-          <!-- TODO: Pendiente JS - rellenar con la imagen del Pokémon favorito -->
+
+          <img
+            id="user-pokemon-img"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+            alt=""
+            width="50"
+          />
+
           <span id="user-pokemon-name">Pokémon:</span>
-          <!-- TODO: Pendiente JS - rellenar con el nombre del Pokémon favorito -->
+
           <button type="button" id="logout">Cerrar sesión</button>
         </div>
 
@@ -102,7 +107,6 @@
           </p>
 
           <p id="game-message"></p>
-          <!--TODO: Mensaje que me ha de decir con cuantas cartas he decidido jugar-->
 
           <button id="start-game">Iniciar Juego</button>
         </div>
