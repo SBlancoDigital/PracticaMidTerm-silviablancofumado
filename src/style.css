@@ -122,10 +122,10 @@ label {
 .container {
   max-width: none;
   margin: 0 auto;
-  padding: 1.5rem 1rem;
+  padding: 1.5rem 01rem;
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
-  column-gap: 1.5rem;
+  column-gap: 0.6rem;
   align-items: start;
 }
 
