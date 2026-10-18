@@ -1,14 +1,14 @@
 import { saveProfile, loadProfile, clearProfile } from "./sotres/sessionStore.js";
 
-import { fetchAllPokemon } from "./pokemonService.js";
+import { fetchAllPokemon } from "./services/pokemonService.js";
 
-import { searchPokemon } from "./pokemonSearch.js";
+import { searchPokemon } from "./game/pokemonSearch.js";
 
 import { renderPokemonResults } from "./profileView.js";
 
 import { renderRanking } from "./rankingView.js";
 
-import { sortResults, getVisibleRows } from "./ranking.js";
+import { sortResults, getVisibleRows } from "./game/ranking.js";
 
 import { addResult, loadHistory } from "./sotres/historyStore.js";
 
@@ -16,7 +16,7 @@ import {
   cardCountValidate,
   MIN_CARDS,
   MAX_CARDS,
-} from "./cardCountValidation.js";
+} from "./game/cardCountValidation.js";
 
 import {
   formatTimer,
@@ -24,9 +24,10 @@ import {
   resetTimer,
   stopTimer,
   getElapsedSeconds,
-} from "./timer.js";
+} from "./game/timer.js";
+
 import { renderBoard } from "./board.js";
-import { createDeck } from "./deck.js";
+import { createDeck } from "./game/deck.js";
 
 // Rankings
 function refreshRanking() {
