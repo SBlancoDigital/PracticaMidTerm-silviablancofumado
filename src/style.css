@@ -29,12 +29,28 @@ body {
 }
 
 h1 {
-  color: var(--red);
+  margin: 0.5rem 0 1rem;
+  color: var(--yellow);
+  font-size: clamp(2.8rem, 7vw, 4.8rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
   text-align: center;
+  -webkit-text-stroke: 7px var(--blue);
+  paint-order: stroke fill;
+  text-shadow: 0 5px 0 #1f4f82;
 }
 
 h2 {
   color: var(--blue);
+  text-align: center;
+}
+
+#login-section h2 {
+  margin-top: 0;
+}
+
+#login-section {
+  padding-top: 0.5rem;
 }
 
 .text-center {
@@ -438,4 +454,9 @@ main > section {
   font-weight: 400;
   line-height: 1.2;
   text-align: center;
+}
+
+#ranking-section h2 {
+  margin: 0.2rem 0 0.4rem;
+  font-size: 1.2rem;
 }
