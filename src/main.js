@@ -6,11 +6,9 @@ import { searchPokemon } from "./game/pokemonSearch.js";
 
 import { renderPokemonResults } from "./ui/profileView.js";
 
-import { renderRanking } from "./ui/rankingView.js";
 
-import { sortResults, getVisibleRows } from "./game/ranking.js";
 
-import { addResult, loadHistory } from "./stores/historyStore.js";
+import { addResult } from "./stores/historyStore.js";
 
 
 import {
@@ -31,10 +29,9 @@ import { renderBoard } from "./ui/board.js";
 import { createDeck } from "./game/deck.js";
 
 import { showScreen } from "./ui/screenController.js";
-// Rankings
-function refreshRanking() {
-  renderRanking(getVisibleRows(sortResults(loadHistory()), lastResultId));
-}
+
+import { refreshRanking } from "./ui/rankingController.js";
+
 
 // Temporizador
 const timerElement = document.getElementById("timer");
@@ -304,7 +301,7 @@ function endGame() {
   stopTimer();
   addResult(result);
   lastResultId = result.id;
-  refreshRanking();
+  refreshRanking(lastResultId);
 
   gameMessage.textContent = `¡Partida terminada! Tu tiempo: ${formatTimer(getElapsedSeconds())}`;
 }
