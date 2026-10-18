@@ -46,3 +46,7 @@ export function getVisibleRows(sortedResults, highlightId) {
    
   return visible;
 }
+
+export function getPosition(results, id) {
+  return sortResults(results).findIndex((result) => result.id === id) + 1;
+}

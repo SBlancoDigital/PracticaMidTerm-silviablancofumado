@@ -1,5 +1,5 @@
 import { loadProfile } from "../stores/sessionStore.js";
-import { addResult } from "../stores/historyStore.js";
+import { addResult, loadHistory } from "../stores/historyStore.js";
 import { getCatalog } from "../services/pokemonCatalog.js";
 import {
   cardCountValidate,
@@ -14,7 +14,8 @@ import {
   getElapsedSeconds,
 } from "../game/timer.js";
 import { createDeck } from "../game/deck.js";
-import { renderBoard } from "./board.js";
+import { getPosition } from "../game/ranking.js";
+import { renderBoard, fitBoard } from "./board.js";
 import { refreshRanking } from "./rankingController.js";
 
 const HIDE_DELAY_MS = 1000;
@@ -24,6 +25,8 @@ const boardElement = document.getElementById("board");
 const cardCountInput = document.getElementById("personalized-numberCards");
 const cardCountError = document.getElementById("card-count-error");
 const gameMessage = document.getElementById("game-message");
+const endOverlay = document.getElementById("end-overlay");
+const endDetails = document.getElementById("end-details");
 
 let firstCard = null;
 let isChecking = false;
@@ -62,6 +65,7 @@ export function clearGame() {
   lastCardCount = null;
   lastResultId = null;
   refreshRanking();
+  endOverlay.hidden = true;
 }
 
 function startGame(cardCount) {
@@ -79,6 +83,7 @@ function startGame(cardCount) {
   }
 
   lastCardCount = cardCount;
+  endOverlay.hidden = true;
   lastResultId = null;
   refreshRanking();
 
@@ -93,6 +98,9 @@ function startGame(cardCount) {
   hasStarted = false;
   resetTurn();
   renderBoard(boardElement, deck);
+
+  document.getElementById("game-controls").scrollIntoView({ block: "start" });
+  fitBoard(boardElement, deck.length);
 }
 
 function endGame() {
@@ -109,7 +117,9 @@ function endGame() {
   lastResultId = result.id;
   refreshRanking(lastResultId);
 
-  gameMessage.textContent = `¡Partida terminada! Tu tiempo: ${formatTimer(getElapsedSeconds())}`;
+  const position = getPosition(loadHistory(), result.id);
+  endDetails.textContent = `Posición ${position} · ${formatTimer(result.time)} · ${result.numberOfCards} cartas`;
+  endOverlay.hidden = false;
 }
 function handleCardClick(event) {
   const card = event.target.closest(".card");
@@ -179,4 +189,14 @@ export function initGame() {
         "¡No hay ninguna partida para reiniciar! Selecciona el número de cartas con las que quieres jugar.";
     }
   });
+
+  window.addEventListener("resize", () => {
+    const cardCount = boardElement.children.length;
+    if (cardCount > 0) fitBoard(boardElement, cardCount);
+  });
+
+    document.getElementById("end-close").addEventListener("click", () => {
+    endOverlay.hidden = true;
+  });
+  
 }
