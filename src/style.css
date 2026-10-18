@@ -1,13 +1,22 @@
+/* ===== Variables ===== */
 :root {
   --red: #e53935;
+  --red-dark: #c62828;
   --blue: #2a75bb;
+  --blue-dark: #174875;
   --yellow: #ffcb05;
   --bg: #f4f7fb;
   --text: #222;
+  --muted: #6b7a90;
 }
 
+/* ===== Base ===== */
 * {
   box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 body {
@@ -16,16 +25,6 @@ body {
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   line-height: 1.5;
-}
-
-.container {
-  max-width: none;
-  margin: 0 auto;
-  padding: 1.5rem 1rem;
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0,1fr);
-  column-gap: 1.5rem;
-  align-items: start;
 }
 
 h1 {
@@ -45,14 +44,6 @@ h2 {
   text-align: center;
 }
 
-#login-section h2 {
-  margin-top: 0;
-}
-
-#login-section {
-  padding-top: 0.5rem;
-}
-
 .text-center {
   text-align: center;
 }
@@ -62,6 +53,7 @@ h2 {
   font-weight: 600;
 }
 
+/* Solo cambia cómo se ve, el dato guardado no se modifica */
 #user-name,
 #user-pokemon-name,
 #selected-pokemon-name,
@@ -71,12 +63,7 @@ h2 {
   text-transform: capitalize;
 }
 
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
+/* ===== Botones y formularios ===== */
 button {
   background-color: var(--red);
   color: white;
@@ -90,13 +77,23 @@ button {
 }
 
 button:hover {
-  background-color: #c62828;
+  background-color: var(--red-dark);
 }
 
 button:focus-visible,
 input:focus-visible {
   outline: 3px solid var(--yellow);
   outline-offset: 2px;
+}
+
+button[type="submit"] {
+  background-color: var(--blue);
+  color: var(--yellow);
+}
+
+button[type="submit"]:hover {
+  background-color: var(--blue-dark);
+  color: var(--bg);
 }
 
 input {
@@ -119,6 +116,43 @@ label {
   margin-bottom: 1rem;
 }
 
+/* ===== Maquetación general ===== */
+.container {
+  max-width: none;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  column-gap: 1.5rem;
+  align-items: start;
+}
+
+.container > h1 {
+  grid-column: 1 / -1;
+}
+
+main > section {
+  background-color: white;
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#login-section,
+#game-section {
+  grid-column: 1;
+}
+
+/* ===== Perfil ===== */
+#login-section {
+  padding-top: 0.5rem;
+}
+
+#login-section h2 {
+  margin-top: 0;
+}
+
 #pokemon-results {
   list-style: none;
   padding: 0;
@@ -137,21 +171,10 @@ label {
   border-radius: 999px;
   box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.55);
   color: white;
-  text-transform: capitalize;
 }
 
 #pokemon-results button:hover {
   filter: brightness(1.5);
-}
-
-button[type="submit"] {
-  background-color: var(--blue);
-  color: var(--yellow);
-}
-
-button[type="submit"]:hover {
-  background-color: #174875;
-  color: var(--bg);
 }
 
 #change-pokemon {
@@ -165,32 +188,64 @@ button[type="submit"]:hover {
   color: white;
 }
 
-main > section {
-  background-color: white;
-  border-radius: 16px;
-  padding: 1.25rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+/* ===== Juego: cabecera ===== */
+.game-top {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#logout {
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  background-color: transparent;
+  color: var(--muted);
+  border: 1px solid #c9d3e0;
+}
+
+#logout:hover {
+  background-color: var(--red);
+  color: white;
+  border-color: var(--red);
+}
+
+.game-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 2rem;
 }
 
 #user-info {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
+  margin: 0;
 }
 
 #user-pokemon-img {
-  width: 48px;
-  height: 48px;
+  width: 96px;
+  height: 96px;
   object-fit: contain;
 }
 
-#logout {
-  margin-left: auto;
+.user-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
 }
 
+#user-name {
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+#user-pokemon-name {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ===== Juego: elección de cartas ===== */
 .number-cards-option {
   background-color: white;
   color: var(--blue);
@@ -203,43 +258,75 @@ main > section {
   color: white;
 }
 
-.container > h1 {
-  grid-column: 1 / -1;
+/* ===== Juego: temporizador y mensajes ===== */
+#game-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 0.5rem;
 }
 
-#login-section,
-#game-section {
-  grid-column: 1;
+#timer {
+  margin: 0;
+  color: var(--blue);
+  font-size: 2.2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
 }
 
-#ranking-section {
-  font-size: 0.85rem;
-  grid-column: 2;
-  grid-row: 2;
-  position: sticky;
-  top: 1rem;
-  padding: 0.4rem;
+#reset-game {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.9rem;
+  background-color: white;
+  color: var(--red);
+  border: 2px solid var(--red);
 }
 
-[hidden] {
-  display: none !important;
+#reset-game:hover {
+  background-color: var(--red);
+  color: white;
 }
 
-#ranking-section th,
-#ranking-section td {
-  padding: 0.25rem 0.4rem;
-  text-align: left;
+#game-message {
+  margin: 0;
+  font-weight: 600;
+  text-align: center;
 }
 
+#game-message:empty {
+  display: none;
+}
+
+/* ===== Juego: tablero y cartas ===== */
+#board-area {
+  position: relative;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), var(--card-size, 70px));
+  gap: var(--gap, 10px);
+  justify-content: center;
+  margin-top: 1rem;
+}
 
 .card {
+  width: var(--card-size, 70px);
+  height: var(--card-size, 70px);
   padding: 0;
-  border: 4px solid #222;
+  border: 4px solid var(--text);
   border-radius: 50%;
   color: transparent;
   background:
-    radial-gradient(circle, #fff 0 10%, #222 10% 17%, transparent 17%),
-    linear-gradient(to bottom, var(--red) 0 44%, #222 44% 56%, #fff 56% 100%);
+    radial-gradient(circle, #fff 0 10%, var(--text) 10% 17%, transparent 17%),
+    linear-gradient(
+      to bottom,
+      var(--red) 0 44%,
+      var(--text) 44% 56%,
+      #fff 56% 100%
+    );
   transition: transform 0.15s;
 }
 
@@ -251,24 +338,18 @@ main > section {
   background: white;
 }
 
-#board {
-
-  display: grid;
-  grid-template-columns: repeat(var(--cols, 4), var(--card-size, 70px));
-  gap: var(--gap, 10px);
-  justify-content: center;
-  margin-top: 1rem;
+.card.matched {
+  border-color: var(--blue);
+  box-shadow: inset 0 0 0 3px var(--yellow);
 }
 
-.card {
-  width: var(--card-size, 70px);
-  height: var(--card-size, 70px);
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-#board-area {
-  position: relative;
-}
-
+/* ===== Juego: cartel de final ===== */
 #end-overlay {
   position: absolute;
   top: 50%;
@@ -311,50 +392,24 @@ main > section {
   color: var(--blue);
 }
 
-.card.matched {
-  border-color: var(--blue);
-  box-shadow: inset 0 0 0 3px var(--yellow);
+/* ===== Ranking ===== */
+#ranking-section {
+  grid-column: 2;
+  grid-row: 2;
+  position: sticky;
+  top: 1rem;
+  padding: 0.4rem;
+  font-size: 0.85rem;
 }
 
-#game-controls {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem 1rem;
-  margin-top: 0.5rem;
+#ranking-section h2 {
+  margin: 0.2rem 0 0.4rem;
+  font-size: 1.2rem;
 }
 
-#timer {
-  margin: 0;
-  color: var(--blue);
-  font-size: 2.2rem;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-}
-
-#reset-game {
-  padding: 0.35rem 0.8rem;
-  font-size: 0.9rem;
-  background-color: white;
-  color: var(--red);
-  border: 2px solid var(--red);
-}
-
-#reset-game:hover {
-  background-color: var(--red);
-  color: white;
-}
-
-#game-message {
-  flex-basis: 100%;
-  margin: 0;
-  font-weight: 600;
-  text-align: center;
-}
-
-#game-message:empty {
-  display: none;
+#ranking-empty {
+  color: var(--muted);
+  font-style: italic;
 }
 
 #ranking-table {
@@ -362,28 +417,7 @@ main > section {
   border-collapse: collapse;
 }
 
-#ranking-table th {
-  background-color: var(--blue);
-  color: white;
-  font-weight: 700;
-}
-
-#ranking-body tr:nth-child(even) {
-  background-color: var(--bg);
-}
-
-#ranking-empty {
-  color: #6b7a90;
-  font-style: italic;
-}
-
-#ranking-body tr.highlight {
-  background-color: var(--yellow);
-  font-weight: 800;
-  outline: 3px solid var(--blue);
-  outline-offset: -3px;
-}
-
+/* La cabecera se oculta a la vista pero sigue disponible para lectores de pantalla */
 #ranking-table thead {
   position: absolute;
   width: 1px;
@@ -404,6 +438,10 @@ main > section {
   border-bottom: 1px solid #e1e8f0;
 }
 
+#ranking-body tr:nth-child(even) {
+  background-color: var(--bg);
+}
+
 #ranking-body td {
   padding: 0;
   overflow-wrap: anywhere;
@@ -411,7 +449,6 @@ main > section {
 
 #ranking-body td:nth-child(1) {
   grid-area: pos;
-  padding: 0;
   text-align: center;
   font-size: 0.95rem;
   font-weight: 800;
@@ -444,11 +481,11 @@ main > section {
   content: "🃏 ";
 }
 
+/* Aviso de "posiciones ocultas": va después de las nth-child para que gane */
 #ranking-body td[colspan] {
   grid-area: auto;
   grid-column: 1 / -1;
-  padding: 0;
-  color: #6b7a90;
+  color: var(--muted);
   font-size: 0.7rem;
   font-style: italic;
   font-weight: 400;
@@ -456,7 +493,10 @@ main > section {
   text-align: center;
 }
 
-#ranking-section h2 {
-  margin: 0.2rem 0 0.4rem;
-  font-size: 1.2rem;
+/* Siempre la última: la partida que acaba de terminar */
+#ranking-body tr.highlight {
+  background-color: var(--yellow);
+  font-weight: 800;
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
 }

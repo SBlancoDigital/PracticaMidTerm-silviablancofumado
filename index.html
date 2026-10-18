@@ -53,23 +53,26 @@
       </section>
 
       <!-- Bloque de juego con sesión-->
+      <!--Cabecera: username + Pokémon favorito + Cerrar sesión-->
       <section id="game-section" hidden>
-        <h2>¿Con cuantas cartas quieres jugar?</h2>
-
-        <!--Cabecera: username + Pokémon favorito + Cerrar sesión-->
-        <div id="user-info">
-          <span id="user-name">Usuario:</span>
-
-          <img
-            id="user-pokemon-img"
-            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-            alt=""
-            width="50"
-          />
-
-          <span id="user-pokemon-name">Pokémon:</span>
-
+        <div class="game-top">
           <button type="button" id="logout">Cerrar sesión</button>
+        </div>
+
+        <div class="game-title-row">
+          <div id="user-info">
+            <img
+              id="user-pokemon-img"
+              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+              alt=""
+              width="50"
+            />
+            <div class="user-text">
+              <span id="user-name">Usuario:</span>
+              <span id="user-pokemon-name">Pokémon:</span>
+            </div>
+          </div>
+          <h2>¿Con cuántas cartas quieres jugar?</h2>
         </div>
 
         <!-- Elección de número de cartas -->
