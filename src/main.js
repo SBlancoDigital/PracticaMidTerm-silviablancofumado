@@ -1,4 +1,4 @@
-import { saveProfile, loadProfile, clearProfile } from "./sotres/sessionStore.js";
+import { saveProfile, loadProfile, clearProfile } from "./stores/sessionStore.js";
 
 import { fetchAllPokemon } from "./services/pokemonService.js";
 
@@ -10,7 +10,8 @@ import { renderRanking } from "./ui/rankingView.js";
 
 import { sortResults, getVisibleRows } from "./game/ranking.js";
 
-import { addResult, loadHistory } from "./sotres/historyStore.js";
+import { addResult, loadHistory } from "./stores/historyStore.js";
+
 
 import {
   cardCountValidate,
@@ -29,6 +30,7 @@ import {
 import { renderBoard } from "./ui/board.js";
 import { createDeck } from "./game/deck.js";
 
+import { showScreen } from "./ui/screenController.js";
 // Rankings
 function refreshRanking() {
   renderRanking(getVisibleRows(sortResults(loadHistory()), lastResultId));
@@ -73,12 +75,6 @@ const selectedPokemonName = document.getElementById("selected-pokemon-name");
 const selectedPokemonImg = document.getElementById("selected-pokemon-img");
 const selectedPokemonBlock = document.getElementById("pokemon-selected");
 
-const loginSection = document.getElementById("login-section");
-const gameSection = document.getElementById("game-section");
-
-const userNameElement = document.getElementById("user-name");
-const userPokemonImg = document.getElementById("user-pokemon-img");
-const userPokemonName = document.getElementById("user-pokemon-name");
 
 async function loadPokemonList() {
   try {
@@ -90,18 +86,7 @@ async function loadPokemonList() {
 }
 loadPokemonList();
 
-function showScreen() {
-  const profile = loadProfile();
-  loginSection.hidden = profile !== null;
-  gameSection.hidden = profile === null;
 
-  if (profile === null) return;
-
-  userNameElement.textContent = profile.username;
-  userPokemonImg.src = profile.pokemon.img;
-  userPokemonImg.alt = profile.pokemon.name;
-  userPokemonName.textContent = profile.pokemon.name;
-}
 
 showScreen();
 
