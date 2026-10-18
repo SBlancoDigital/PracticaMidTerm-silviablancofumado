@@ -1,4 +1,4 @@
-import { saveProfile, loadProfile, clearProfile } from "./sessionStore.js";
+import { saveProfile, loadProfile, clearProfile } from "./sotres/sessionStore.js";
 
 import { fetchAllPokemon } from "./pokemonService.js";
 
@@ -10,7 +10,7 @@ import { renderRanking } from "./rankingView.js";
 
 import { sortResults, getVisibleRows } from "./ranking.js";
 
-import { addResult, loadHistory } from "./historyStore.js";
+import { addResult, loadHistory } from "./sotres/historyStore.js";
 
 import {
   cardCountValidate,
