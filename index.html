@@ -78,40 +78,59 @@
         <!-- Elección de número de cartas -->
 
         <div class="form-group">
-          <button type="button" class="number-cards-option" data-cards="8">
-            8 cartas
-          </button>
-          <button type="button" class="number-cards-option" data-cards="16">
-            16 cartas
-          </button>
-          <button type="button" class="number-cards-option" data-cards="32">
-            32 cartas
-          </button>
-          <button type="button" class="number-cards-option" data-cards="48">
-            48 cartas
-          </button>
+          <div class="card-options">
+            <button
+              type="button"
+              class="number-cards-option"
+              data-cards="8"
+              aria-label="8 cartas"
+            >
+              8
+            </button>
+            <button
+              type="button"
+              class="number-cards-option"
+              data-cards="16"
+              aria-label="16 cartas"
+            >
+              16
+            </button>
+            <button
+              type="button"
+              class="number-cards-option"
+              data-cards="32"
+              aria-label="32 cartas"
+            >
+              32
+            </button>
+            <button
+              type="button"
+              class="number-cards-option"
+              data-cards="48"
+              aria-label="48 cartas"
+            >
+              48
+            </button>
+          </div>
 
-          <label for="personalized-numberCards"
-            >Crea tu tablero personalizado: Elige con cuantas cartas quieres
-            jugar:
-          </label>
-          <input
-            type="number"
-            id="personalized-numberCards"
-            name="personalized-numberCards"
-            min="4"
-            max="48"
-            step="2"
-            value="4"
-          />
-
-          <p id="card-count-error" class="error" hidden>
-            El número de cartas debe ser un número par entre 4 y 48.
-          </p>
-
-          <p id="game-message"></p>
-
-          <button id="start-game">Iniciar Juego</button>
+          <div class="custom-count">
+            <label for="personalized-numberCards">O elige otro número:</label>
+            <div class="custom-count-row">
+              <input
+                type="number"
+                id="personalized-numberCards"
+                name="personalized-numberCards"
+                min="4"
+                max="48"
+                step="2"
+                value="4"
+              />
+              <button type="button" id="start-game">Iniciar Juego</button>
+            </div>
+            <p class="hint">Par, entre 4 y 48</p>
+            <p id="card-count-error" class="error" hidden></p>
+            <p id="game-message"></p>
+          </div>
         </div>
 
         <div id="game-controls">

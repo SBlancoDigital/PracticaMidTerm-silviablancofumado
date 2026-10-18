@@ -86,12 +86,14 @@ input:focus-visible {
   outline-offset: 2px;
 }
 
-button[type="submit"] {
+button[type="submit"],
+#start-game {
   background-color: var(--blue);
   color: var(--yellow);
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover,
+#stoart-game:hover {
   background-color: var(--blue-dark);
   color: var(--bg);
 }
@@ -246,16 +248,58 @@ main > section {
 }
 
 /* ===== Juego: elección de cartas ===== */
+.card-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
 .number-cards-option {
+  width: clamp(4.5rem, 9vw, 7rem);
+  aspect-ratio: 1;
+  padding: 0;
   background-color: white;
-  color: var(--blue);
-  border: 2px solid var(--blue);
-  margin: 0 0.25rem 0.75rem 0;
+  color: var(--text);
+  border: 4px solid var(--blue);
+  border-radius: 20px;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 800;
 }
 
 .number-cards-option:hover {
   background-color: var(--blue);
   color: white;
+}
+
+.custom-count {
+  text-align: center;
+}
+
+.custom-count label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.custom-count-row {
+  display: inline-flex;
+}
+
+.custom-count-row input {
+  width: 5.5rem;
+  border-radius: 8px 0 0 8px;
+  text-align: center;
+}
+
+.custom-count-row button {
+  border-radius: 0 8px 8px 0;
+}
+
+.hint {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 /* ===== Juego: temporizador y mensajes ===== */
