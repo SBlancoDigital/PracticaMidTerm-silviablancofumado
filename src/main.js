@@ -1,15 +1,8 @@
-import { saveProfile, loadProfile, clearProfile } from "./stores/sessionStore.js";
+import { loadProfile, clearProfile } from "./stores/sessionStore.js";
 
-import { loadCatalog, getCatalog } from "./services/pokemonCatalog.js";
-
-import { searchPokemon } from "./game/pokemonSearch.js";
-
-import { renderPokemonResults } from "./ui/profileView.js";
-
-
+import { getCatalog } from "./services/pokemonCatalog.js";
 
 import { addResult } from "./stores/historyStore.js";
-
 
 import {
   cardCountValidate,
@@ -32,6 +25,9 @@ import { showScreen } from "./ui/screenController.js";
 
 import { refreshRanking } from "./ui/rankingController.js";
 
+import { initProfile } from "./ui/profileController.js";
+
+initProfile();
 
 // Temporizador
 const timerElement = document.getElementById("timer");
@@ -61,26 +57,14 @@ let totalPairs = 0;
 let hasStarted = false;
 let lastCardCount = null;
 let lastResultId = null;
-let selectedPokemon = null;
-
-const pokemonSearchInput = document.getElementById("pokemon-search");
-const pokemonResults = document.getElementById("pokemon-results");
-const pokemonError = document.getElementById("pokemon-error");
-
-const selectedPokemonName = document.getElementById("selected-pokemon-name");
-const selectedPokemonImg = document.getElementById("selected-pokemon-img");
-const selectedPokemonBlock = document.getElementById("pokemon-selected");
 
 
-async function loadPokemonList() {
-  try {
-    await loadCatalog();
-    } catch {
-    pokemonError.textContent =
-      "No se han podido cargar los Pokémons. Recarga la página.";
-  }
-}
-loadPokemonList();
+
+
+
+
+
+
 
 
 
@@ -159,12 +143,7 @@ document.getElementById("start-game").addEventListener("click", () => {
   startGame(cardCountInput.value);
 });
 
-document.getElementById("change-pokemon").addEventListener("click", () => {
-  selectedPokemon = null;
-  selectedPokemonBlock.hidden = true;
-  pokemonSearchInput.value = "";
-  pokemonSearchInput.focus();
-});
+
 
 document.getElementById("logout").addEventListener("click", () => {
   clearProfile();
@@ -172,32 +151,11 @@ document.getElementById("logout").addEventListener("click", () => {
   showScreen();
 });
 
-// Validación del nombre de usuario
-const usernameInput = document.getElementById("username");
-const usernameError = document.getElementById("username-error");
-const MIN_LENGTH = 3;
-const MAX_LENGTH = 15;
 
-function usernameValidate() {
-  const usernameCleaned = usernameInput.value.trim();
-  if (
-    usernameCleaned.length < MIN_LENGTH ||
-    usernameCleaned.length > MAX_LENGTH
-  ) {
-    usernameInput.setCustomValidity(
-      `El nombre de usuario debe tener entre ${MIN_LENGTH} y ${MAX_LENGTH} caracteres.`,
-    );
-    return false;
-  }
 
-  usernameInput.setCustomValidity("");
-  return true;
-}
 
-usernameInput.addEventListener("input", () => {
-  const isCorrect = usernameValidate();
-  usernameError.hidden = isCorrect;
-});
+
+
 
 boardElement.addEventListener("click", (event) => {
   const card = event.target.closest(".card");
@@ -241,24 +199,9 @@ boardElement.addEventListener("click", (event) => {
   }
 });
 
-pokemonSearchInput.addEventListener("input", () => {
-  const matches = searchPokemon(getCatalog(), pokemonSearchInput.value);
-  renderPokemonResults(pokemonResults, matches);
-  pokemonError.textContent = "";
-});
 
-pokemonResults.addEventListener("click", (event) => {
-  const button = event.target.closest("button");
-  if (!button) return;
-  selectedPokemon = getCatalog().find(
-    (pokemon) => pokemon.id === button.dataset.id,
-  );
-  selectedPokemonName.textContent = selectedPokemon.name;
-  selectedPokemonImg.src = selectedPokemon.img;
-  selectedPokemonImg.alt = selectedPokemon.name;
-  selectedPokemonBlock.hidden = false;
-  renderPokemonResults(pokemonResults, []);
-});
+
+
 
 document.getElementById("reset-game").addEventListener("click", () => {
   if (lastCardCount !== null) {
@@ -269,24 +212,7 @@ document.getElementById("reset-game").addEventListener("click", () => {
   }
 });
 
-document.getElementById("profile-form").addEventListener("submit", (event) => {
-  event.preventDefault();
 
-  const isUsernameCorrect = usernameValidate();
-  usernameError.hidden = isUsernameCorrect;
-  if (selectedPokemon === null) {
-    pokemonError.textContent = "Elige un Pokémon para crear tu perfil.";
-    return;
-  }
-
-  pokemonError.textContent = "";
-  const profile = {
-    username: usernameInput.value.trim(),
-    pokemon: selectedPokemon,
-  };
-  saveProfile(profile);
-  showScreen();
-});
 
 function endGame() {
   const profile = loadProfile();
