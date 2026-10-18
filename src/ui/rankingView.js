@@ -1,4 +1,4 @@
-import { formatTimer } from "./game/timer.js";
+import { formatTimer } from "../game/timer.js";
 
 export function renderRanking(rows) {
   const emptyMessage = document.getElementById("ranking-empty");

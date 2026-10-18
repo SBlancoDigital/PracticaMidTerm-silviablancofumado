@@ -4,9 +4,9 @@ import { fetchAllPokemon } from "./services/pokemonService.js";
 
 import { searchPokemon } from "./game/pokemonSearch.js";
 
-import { renderPokemonResults } from "./profileView.js";
+import { renderPokemonResults } from "./ui/profileView.js";
 
-import { renderRanking } from "./rankingView.js";
+import { renderRanking } from "./ui/rankingView.js";
 
 import { sortResults, getVisibleRows } from "./game/ranking.js";
 
@@ -26,7 +26,7 @@ import {
   getElapsedSeconds,
 } from "./game/timer.js";
 
-import { renderBoard } from "./board.js";
+import { renderBoard } from "./ui/board.js";
 import { createDeck } from "./game/deck.js";
 
 // Rankings
