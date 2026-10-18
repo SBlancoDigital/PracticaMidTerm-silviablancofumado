@@ -1,6 +1,6 @@
 import { saveProfile, loadProfile, clearProfile } from "./stores/sessionStore.js";
 
-import { fetchAllPokemon } from "./services/pokemonService.js";
+import { loadCatalog, getCatalog } from "./services/pokemonCatalog.js";
 
 import { searchPokemon } from "./game/pokemonSearch.js";
 
@@ -61,7 +61,6 @@ let totalPairs = 0;
 let hasStarted = false;
 let lastCardCount = null;
 let lastResultId = null;
-let allPokemon = [];
 let selectedPokemon = null;
 
 const pokemonSearchInput = document.getElementById("pokemon-search");
@@ -75,7 +74,7 @@ const selectedPokemonBlock = document.getElementById("pokemon-selected");
 
 async function loadPokemonList() {
   try {
-    allPokemon = await fetchAllPokemon();
+    await loadCatalog();
     } catch {
     pokemonError.textContent =
       "No se han podido cargar los Pokémons. Recarga la página.";
@@ -125,7 +124,7 @@ function startGame(cardCount) {
   }
   cardCountError.hidden = true;
 
-    if (allPokemon.length === 0) {
+    if (getCatalog().length === 0) {
     gameMessage.textContent =
       "Los Pokémons aún no se han cargado. Espera un momento y vuelvelo a intentar.";
     return;
@@ -142,7 +141,7 @@ function startGame(cardCount) {
   resetTimer();
   showTime(formatTimer(0));
 
-  const deck = createDeck(allPokemon, Number(cardCount));
+  const deck = createDeck(getCatalog(), Number(cardCount));
   matchedPairs = 0;
   totalPairs = deck.length / 2;
   hasStarted = false;
@@ -243,7 +242,7 @@ boardElement.addEventListener("click", (event) => {
 });
 
 pokemonSearchInput.addEventListener("input", () => {
-  const matches = searchPokemon(allPokemon, pokemonSearchInput.value);
+  const matches = searchPokemon(getCatalog(), pokemonSearchInput.value);
   renderPokemonResults(pokemonResults, matches);
   pokemonError.textContent = "";
 });
@@ -251,7 +250,7 @@ pokemonSearchInput.addEventListener("input", () => {
 pokemonResults.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button) return;
-  selectedPokemon = allPokemon.find(
+  selectedPokemon = getCatalog().find(
     (pokemon) => pokemon.id === button.dataset.id,
   );
   selectedPokemonName.textContent = selectedPokemon.name;
