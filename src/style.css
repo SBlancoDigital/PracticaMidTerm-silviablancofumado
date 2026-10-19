@@ -544,3 +544,43 @@ main > section {
   outline: 3px solid var(--blue);
   outline-offset: -3px;
 }
+
+
+@media (max-width: 1100px) {
+  .container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #ranking-section {
+    grid-column: 1;
+    grid-row: auto;
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem 0.5rem;
+  }
+
+  main > section {
+    padding: 0.9rem;
+  }
+
+  .card-options {
+    gap: 0.5rem;
+  }
+
+  #user-pokemon-img {
+    width: 64px;
+    height: 64px;
+  }
+
+  #user-name {
+    font-size: 1.3rem;
+  }
+
+  #timer {
+    font-size: 1.8rem;
+  }
+}

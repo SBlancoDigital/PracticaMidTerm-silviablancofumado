@@ -18,10 +18,17 @@ const GAP_PX = 10;
 const BOTTOM_MARGIN_PX = 16;
 
 export function fitBoard(boardElement, cardCount) {
+  const controlsRect = document
+    .getElementById("game-controls")
+    .getBoundingClientRect();
+  const gapAboveBoard =
+    boardElement.getBoundingClientRect().top - controlsRect.bottom;
+
   const width = boardElement.clientWidth;
   const height =
     window.innerHeight -
-    boardElement.getBoundingClientRect().top -
+    controlsRect.height -
+    gapAboveBoard -
     BOTTOM_MARGIN_PX;
   const shape = getBoardShape(cardCount, width, height, GAP_PX);
 
