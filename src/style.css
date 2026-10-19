@@ -1,7 +1,59 @@
-.highlight {
-  background-color: gold;
+/* ===== Variables ===== */
+:root {
+  --red: #e53935;
+  --red-dark: #c62828;
+  --blue: #2a75bb;
+  --blue-dark: #174875;
+  --yellow: #ffcb05;
+  --bg: #f4f7fb;
+  --text: #222;
+  --muted: #6b7a90;
 }
 
+/* ===== Base ===== */
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+h1 {
+  margin: 0.5rem 0 1rem;
+  color: var(--yellow);
+  font-size: clamp(2.8rem, 7vw, 4.8rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-align: center;
+  -webkit-text-stroke: 7px var(--blue);
+  paint-order: stroke fill;
+  text-shadow: 0 5px 0 #1f4f82;
+}
+
+h2 {
+  color: var(--blue);
+  text-align: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.error {
+  color: var(--red);
+  font-weight: 600;
+}
+
+/* Solo cambia cómo se ve, el dato guardado no se modifica */
 #user-name,
 #user-pokemon-name,
 #selected-pokemon-name,
@@ -11,8 +63,524 @@
   text-transform: capitalize;
 }
 
-.card img {
-  width: 100px;
-  height: 100px;
+/* ===== Botones y formularios ===== */
+button {
+  background-color: var(--red);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: var(--red-dark);
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+button[type="submit"],
+#start-game {
+  background-color: var(--blue);
+  color: var(--yellow);
+}
+
+button[type="submit"]:hover,
+#stoart-game:hover {
+  background-color: var(--blue-dark);
+  color: var(--bg);
+}
+
+input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #c9d3e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+}
+
+input:focus {
+  border-color: var(--blue);
+}
+
+label {
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+/* ===== Maquetación general ===== */
+.container {
+  max-width: none;
+  margin: 0 auto;
+  padding: 1.5rem 01rem;
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  column-gap: 0.6rem;
+  align-items: start;
+}
+
+.container > h1 {
+  grid-column: 1 / -1;
+}
+
+main > section {
+  background-color: white;
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#login-section,
+#game-section {
+  grid-column: 1;
+}
+
+/* ===== Perfil ===== */
+#login-section {
+  padding-top: 0.5rem;
+}
+
+#login-section h2 {
+  margin-top: 0;
+}
+
+#pokemon-results {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 200px;
+}
+
+#pokemon-results button {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  background-color: #3f82d4;
+  border: 3px solid #3a3a3a;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.55);
+  color: white;
+}
+
+#pokemon-results button:hover {
+  filter: brightness(1.5);
+}
+
+#change-pokemon {
+  background-color: transparent;
+  color: var(--blue);
+  border: 2px solid var(--blue);
+}
+
+#change-pokemon:hover {
+  background-color: var(--blue);
+  color: white;
+}
+
+/* ===== Juego: cabecera ===== */
+.game-top {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#logout {
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  background-color: transparent;
+  color: var(--muted);
+  border: 1px solid #c9d3e0;
+}
+
+#logout:hover {
+  background-color: var(--red);
+  color: white;
+  border-color: var(--red);
+}
+
+.game-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 2rem;
+}
+
+#user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+#user-pokemon-img {
+  width: 96px;
+  height: 96px;
   object-fit: contain;
+}
+
+.user-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+#user-name {
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+#user-pokemon-name {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ===== Juego: elección de cartas ===== */
+.card-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.number-cards-option {
+  width: clamp(4.5rem, 9vw, 7rem);
+  aspect-ratio: 1;
+  padding: 0;
+  background-color: white;
+  color: var(--text);
+  border: 4px solid var(--blue);
+  border-radius: 20px;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 800;
+}
+
+.number-cards-option:hover {
+  background-color: var(--blue);
+  color: white;
+}
+
+.custom-count {
+  text-align: center;
+}
+
+.custom-count label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.custom-count-row {
+  display: inline-flex;
+}
+
+.custom-count-row input {
+  width: 5.5rem;
+  border-radius: 8px 0 0 8px;
+  text-align: center;
+}
+
+.custom-count-row button {
+  border-radius: 0 8px 8px 0;
+}
+
+.hint {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ===== Juego: temporizador y mensajes ===== */
+#game-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 0.5rem;
+}
+
+#timer {
+  margin: 0;
+  color: var(--blue);
+  font-size: 2.2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+#reset-game {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.9rem;
+  background-color: white;
+  color: var(--red);
+  border: 2px solid var(--red);
+}
+
+#reset-game:hover {
+  background-color: var(--red);
+  color: white;
+}
+
+#game-message {
+  margin: 0;
+  font-weight: 600;
+  text-align: center;
+}
+
+#game-message:empty {
+  display: none;
+}
+
+/* ===== Juego: tablero y cartas ===== */
+#board-area {
+  position: relative;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), var(--card-size, 70px));
+  gap: var(--gap, 10px);
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.card {
+  width: var(--card-size, 70px);
+  height: var(--card-size, 70px);
+  padding: 0;
+  border: 4px solid var(--text);
+  border-radius: 50%;
+  color: transparent;
+  background:
+    radial-gradient(circle, #fff 0 10%, var(--text) 10% 17%, transparent 17%),
+    linear-gradient(
+      to bottom,
+      var(--red) 0 44%,
+      var(--text) 44% 56%,
+      #fff 56% 100%
+    );
+  transition: transform 0.15s;
+}
+
+.card:not(.flipped):hover {
+  transform: scale(1.06);
+}
+
+.card.flipped {
+  background: white;
+}
+
+.card.matched {
+  border-color: var(--blue);
+  box-shadow: inset 0 0 0 3px var(--yellow);
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ===== Juego: cartel de final ===== */
+#end-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90%, 640px);
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  background-color: var(--blue);
+  color: white;
+  border-radius: 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+#end-title {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+}
+
+#end-details {
+  margin: 0;
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  font-weight: 600;
+}
+
+#end-close {
+  margin-top: 0.5rem;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+#end-close:hover {
+  background-color: white;
+  color: var(--blue);
+}
+
+/* ===== Ranking ===== */
+#ranking-section {
+  grid-column: 2;
+  grid-row: 2;
+  position: sticky;
+  top: 1rem;
+  padding: 0.4rem;
+  font-size: 0.85rem;
+}
+
+#ranking-section h2 {
+  margin: 0.2rem 0 0.4rem;
+  font-size: 1.2rem;
+}
+
+#ranking-empty {
+  color: var(--muted);
+  font-style: italic;
+}
+
+#ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* La cabecera se oculta a la vista pero sigue disponible para lectores de pantalla */
+#ranking-table thead {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+#ranking-body tr {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "pos player pokemon"
+    "pos time cards";
+  align-items: center;
+  column-gap: 0.3rem;
+  padding: 0.3rem 0.25rem;
+  border-bottom: 1px solid #e1e8f0;
+}
+
+#ranking-body tr:nth-child(even) {
+  background-color: var(--bg);
+}
+
+#ranking-body td {
+  padding: 0;
+  overflow-wrap: anywhere;
+}
+
+#ranking-body td:nth-child(1) {
+  grid-area: pos;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+#ranking-body td:nth-child(2) {
+  grid-area: player;
+  font-weight: 700;
+}
+
+#ranking-body td:nth-child(3) {
+  grid-area: pokemon;
+  text-align: right;
+}
+
+#ranking-body td:nth-child(4) {
+  grid-area: time;
+}
+
+#ranking-body td:nth-child(4)::before {
+  content: "⏱ ";
+}
+
+#ranking-body td:nth-child(5) {
+  grid-area: cards;
+  text-align: right;
+}
+
+#ranking-body td:nth-child(5)::before {
+  content: "🃏 ";
+}
+
+/* Aviso de "posiciones ocultas": va después de las nth-child para que gane */
+#ranking-body td[colspan] {
+  grid-area: auto;
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Siempre la última: la partida que acaba de terminar */
+#ranking-body tr.highlight {
+  background-color: var(--yellow);
+  font-weight: 800;
+  outline: 3px solid var(--blue);
+  outline-offset: -3px;
+}
+
+
+@media (max-width: 1100px) {
+  .container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #ranking-section {
+    grid-column: 1;
+    grid-row: auto;
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 1rem 0.5rem;
+  }
+
+  main > section {
+    padding: 0.9rem;
+  }
+
+  .card-options {
+    gap: 0.5rem;
+  }
+
+  #user-pokemon-img {
+    width: 64px;
+    height: 64px;
+  }
+
+  #user-name {
+    font-size: 1.3rem;
+  }
+
+  #timer {
+    font-size: 1.8rem;
+  }
 }
