@@ -4,7 +4,7 @@
 
 **Aplicación desplegada:** https://practica-mid-term-silviablancofumad.vercel.app/
 
-**Vídeo de demostración:** https://www.youtube.com/watch?v=ZDTw-9sdezI
+**Vídeo de demostración:** https://youtu.be/ITtyrBNAQtY
 
 ---
 
