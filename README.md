@@ -23,7 +23,7 @@ PokeMemory es un juego de memoria con temática Pokémon, hecho con HTML, CSS y 
 
 ## Tecnologías
 
-HTML, CSS y JavaScript (módulos ES), Vite, ESLint y HTMLHint. Despliegue en Vercel.
+HTML, CSS y JavaScript, Vite, ESLint y HTMLHint. Despliegue en Vercel.
 
 ## Estructura del código
 
